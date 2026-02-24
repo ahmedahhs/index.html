@@ -5,59 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>بمناسبة رمضان 2026</title>
     <style>
-        :root { --main-red: #d4001d; --dark-red: #800000; }
-        
         body {
-            margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--main-red), var(--dark-red));
-            background-size: 400% 400%; animation: gradientBG 15s ease infinite;
-            color: white; display: flex; justify-content: center; align-items: center;
-            height: 100vh; width: 100vw; overflow: hidden; text-align: center; position: fixed;
+            margin: 0; padding: 0; font-family: sans-serif;
+            background: #d4001d; color: white;
+            display: flex; justify-content: center; align-items: center;
+            height: 100vh; overflow: hidden; text-align: center;
         }
-
-        @keyframes gradientBG { 0% {background-position: 0% 50%;} 50% {background-position: 100% 50%;} 100% {background-position: 0% 50%;} }
-
-        .heart { position: absolute; color: rgba(255, 255, 255, 0.6); animation: fall linear forwards; z-index: 1; pointer-events: none; }
-        @keyframes fall { to { transform: translateY(100vh) rotate(360deg); } }
-
         .container {
-            background: rgba(255, 255, 255, 0.18); padding: 25px; border-radius: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4); backdrop-filter: blur(15px);
-            width: 85%; max-width: 380px; border: 1.5px solid rgba(255, 255, 255, 0.3);
-            z-index: 10; position: relative; display: block;
+            background: rgba(255, 255, 255, 0.2); padding: 20px;
+            border-radius: 20px; width: 85%; max-width: 350px;
+            backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3);
         }
-
-        #story-screen, #gallery-screen { display: none; }
-
-        input[type="tel"] {
-            padding: 14px; width: 90%; border-radius: 30px; border: 2px solid white;
-            background: rgba(255, 255, 255, 0.1); color: white; text-align: center; font-size: 20px;
-            margin-bottom: 20px; outline: none; box-sizing: border-box;
+        input {
+            padding: 10px; width: 80%; border-radius: 20px; border: none;
+            margin: 15px 0; text-align: center; font-size: 18px;
         }
-
-        .btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
-        
         button {
-            padding: 12px 25px; background: white; border: none; color: var(--main-red);
-            border-radius: 30px; cursor: pointer; font-weight: bold; font-size: 16px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2); transition: 0.4s;
+            padding: 10px 25px; border-radius: 20px; border: none;
+            background: white; color: #d4001d; font-weight: bold; cursor: pointer;
         }
-
-        .img-wrapper { margin-top: 15px; border-radius: 15px; border: 3px solid white; background: #000; overflow: hidden; min-height: 200px; display: flex; align-items: center; }
-        img, video { width: 100%; height: auto; max-height: 250px; object-fit: contain; }
-        
-        .photo-text { margin-top: 15px; font-size: 16px; line-height: 1.6; min-height: 80px; white-space: pre-wrap; direction: rtl; }
-
-        .fade-in { animation: fadeIn 0.8s ease-in-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #story-screen, #gallery-screen { display: none; }
+        .img-wrapper { margin-top: 15px; border-radius: 10px; overflow: hidden; background: #000; }
+        img, video { width: 100%; height: auto; }
+        .photo-text { margin-top: 10px; font-size: 16px; line-height: 1.5; }
     </style>
 </head>
 <body>
 
-    <div id="login-screen" class="container fade-in">
+    <div id="login-screen" class="container">
         <div style="font-size: 50px;">🎄</div>
-        <div style="font-size: 22px; font-weight: bold; margin-bottom: 10px;">❤️ Welcome zeko</div>
-        <h2 style="margin-bottom: 20px;">اكتبي كلمة السر ✨</h2>
+        <h2>Welcome zeko ❤️</h2>
+        <p>اكتبي كلمة السر ✨</p>
         <input type="tel" id="passInput" placeholder="الباسورد">
         <br>
         <button onclick="checkPass()">🔓 افتح الحكاية</button>
@@ -65,30 +43,28 @@
 
     <div id="story-screen" class="container">
         <h1>روح الروح ❤️</h1>
-        <p>حبت اعملك مفجاء اعتزرلك واعبرلك فيه</p>
+        <p>حبيت اعملك مفجاء اعتزرلك واعبرلك فيه</p>
         <button onclick="showGallery()">📸 نبدأ رحلة</button>
     </div>
 
     <div id="gallery-screen" class="container">
         <div id="mediaWrapper" class="img-wrapper"></div>
         <p id="mainText" class="photo-text"></p>
-        <div class="btn-group">
-            <button onclick="prevPhoto()">⬅ السابق</button>
-            <button onclick="nextPhoto()">التالي ⮕</button>
+        <div style="margin-top: 15px;">
+            <button onclick="prevPhoto()">⬅</button>
+            <button onclick="nextPhoto()">➡</button>
         </div>
     </div>
 
     <script>
         const validPasswords = ["1111", "2209"];
-        
-        // تم إصلاح تداخل النصوص وعلامات التنصيص هنا
         const photos = [
-            { src: "ck.jpg", text: "حبيت اول حاجه اقلك كل سنة وإحنا سوا، وكل رمضان وإنتي منورة حياتي.. مش أول رمضان لينا مع بعض، ويا رب ما يكون الأخير، وتفضلي دايماً جنبي ومعايا" },
-            { src: "ck1.jpg", text: "أنا آسف على كل لحظة وجعتك فيها، وممتن جداً إنك فضلتي صامدة ومستنية لحد ما قلبي عرف إنك إنتي الخير كله. كل سنة وإنتي طيبة ويا رب أعوضك عن كل اللي فات" },
-            { src: "ck2.jpg", text: "حابب أقولك إن اسمك هو النغمة الوحيدة اللي صوتي بيحب ينطقها وبيطمن بيها" },
-            { src: "video.mp4", text: "بيقولوا إن على قد الحب بيكون الزعل.. وأنا عشان بحبك أوي، بزيادة أوي، فزعلي منك بيبقى على قد غلاوتك اللي ملهاش حدود. متبعدش عني ولا ثانية ❤️", isVideo: true },
-            { src: "ck3.jpg", text: "فيه ناس بتدوخ من الضحكة، أنا بقى بضيع في تفاصيل غمزتك.. مش كفاية ضحكة حلوة كمان غمزة تخطف القلب؟ ❤️" },
-            { src: "video1.mp4", text: "حضني دايماً هيكون هو بيتك وأمانك، والمكان اللي ترمي فيه كل تعبك وتطمني ❤️", isVideo: true }
+            { src: "ck.jpg", text: "حبيت اول حاجه اقلك كل سنة وإحنا سوا، وكل رمضان وإنتي منورة حياتي.." },
+            { src: "ck1.jpg", text: "أنا آسف على كل لحظة وجعتك فيها.. إنتي الخير كله." },
+            { src: "ck2.jpg", text: "حابب أقولك إن اسمك هو النغمة الوحيدة اللي صوتي بيحب ينطقها." },
+            { src: "video.mp4", text: "بيقولوا إن على قد الحب بيكون الزعل.. متبعدش عني ❤️", isVideo: true },
+            { src: "ck3.jpg", text: "فيه ناس بتدوخ من الضحكة، أنا بقى بضيع في تفاصيل غمزتك.." },
+            { src: "video1.mp4", text: "حضني دايماً هيكون هو بيتك وأمانك ❤️", isVideo: true }
         ];
 
         let currentIdx = 0;
@@ -96,3 +72,35 @@
         function checkPass() {
             const val = document.getElementById('passInput').value;
             if(validPasswords.includes(val)) {
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('story-screen').style.display = 'block';
+            } else { alert("غلط! ركزي يا zeko"); }
+        }
+
+        function showGallery() {
+            document.getElementById('story-screen').style.display = 'none';
+            document.getElementById('gallery-screen').style.display = 'block';
+            render();
+        }
+
+        function render() {
+            const item = photos[currentIdx];
+            const wrapper = document.getElementById('mediaWrapper');
+            wrapper.innerHTML = item.isVideo ? 
+                `<video src="${item.src}" controls autoplay style="width:100%"></video>` : 
+                `<img src="${item.src}" style="width:100%">`;
+            document.getElementById('mainText').innerText = item.text;
+        }
+
+        function nextPhoto() {
+            currentIdx = (currentIdx + 1) % photos.length;
+            render();
+        }
+
+        function prevPhoto() {
+            currentIdx = (currentIdx - 1 + photos.length) % photos.length;
+            render();
+        }
+    </script>
+</body>
+</html>
